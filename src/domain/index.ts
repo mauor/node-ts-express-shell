@@ -5,4 +5,6 @@ export * from './entities/user.entity';
 
 export * from './errors/custom.error';
 
-export * from './dtos/category/create-category'
+export * from './dtos/category/create-category.dto'
+
+export * from './dtos/shared/pagination.dat';
