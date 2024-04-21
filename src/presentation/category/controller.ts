@@ -1,11 +1,11 @@
-import { CategoryService } from './../services/category.service';
+import { CategoryService } from './../services';
 import { Request, Response } from "express";
 import { CreateCategoryDto, CustomError, PaginationDto } from "../../domain";
 
 export class CategoryController {
    
     constructor(
-        private readonly categotyService: CategoryService,
+        private readonly categoryService: CategoryService,
     ) { }
 
     private handleError = (error: unknown, res: Response) => {
@@ -21,29 +21,29 @@ export class CategoryController {
     createCategory = (req: Request, res: Response) => {
         const [error, createCategoryDto] = CreateCategoryDto.create( req.body );
         if( error ) return res.status(400).json({error});
-        this.categotyService.createCategory( createCategoryDto!, req.body.user )
+        this.categoryService.createCategory( createCategoryDto!, req.body.user )
             .then( category => res.status(201).json( category ))
             .catch( error => this.handleError( error, res ));
     }
 
-    getCategories = async (req: Request, res: Response) => {
+    getCategories = (req: Request, res: Response) => {
         const { page = 1, limit = 10 } = req.query;
         const [ error, paginationDto ]  = PaginationDto.create( +page, +limit );
         if( error ) return res.status(400).json( {error} )
-        this.categotyService.getCategories( paginationDto! )
+        this.categoryService.getCategories( paginationDto! )
             .then( categories => res.json( categories ))
             .catch( error => this.handleError( error, res ));
     } 
 
-    getCategory = async (req: Request, res: Response) => {
+    getCategory = (req: Request, res: Response) => {
         res.json('getCategory')
     } 
 
-    updateCategory = async (req: Request, res: Response) => {
+    updateCategory = (req: Request, res: Response) => {
         res.json('putCategory')
     }
 
-    deleteCategory = async (req: Request, res: Response) => {
+    deleteCategory = (req: Request, res: Response) => {
         res.json('deleteCategory')
     } 
     
